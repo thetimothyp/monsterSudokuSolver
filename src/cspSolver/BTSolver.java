@@ -1,4 +1,5 @@
 package cspSolver;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -251,7 +252,8 @@ public class BTSolver implements Runnable{
 	 */
 	private Variable getDegree()
 	{
-		int maxDegree = Integer.MIN_VALUE;
+		List<Variable> max = new ArrayList<Variable>();
+		int maxDegree = 0;
 		Variable maxVariable = null;
 		for(Variable v : network.getVariables()) {
 			if(!v.isAssigned()) {
@@ -260,15 +262,29 @@ public class BTSolver implements Runnable{
 					if(!vOther.isAssigned() && vOther.size() > 1) { degree++; }
 				}
 				System.out.println(v.getName() + ": " + degree);
-				if(degree > maxDegree) {
-					maxDegree = degree; 
-					maxVariable = v;
+				if(degree >= maxDegree) {
+					if (degree > maxDegree) {
+						max.clear();
+						maxDegree = degree; 
+					}
+					max.add(v);
 				}
 			}
 		}
 		
+		System.out.println("max: " + max);
 		System.out.println("MaxDegree: " + maxDegree);
-		return maxVariable;
+		System.out.println("Variable to assign: " + max.get(max.size()-1).getName());
+		System.out.println("Unassigned variables remaining: " + getUnassigned());
+		return max.get(max.size()-1);
+	}
+	
+	private int getUnassigned() {
+		int count = 0;
+		for (Variable v : network.getVariables())
+			if(!v.isAssigned())
+				count++;
+		return count;
 	}
 	
 	/**
