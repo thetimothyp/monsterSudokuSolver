@@ -242,9 +242,7 @@ public class BTSolver implements Runnable{
 				minSize = v.size();
 			}
 		}
-		if(minVariable != null) return minVariable;
-		
-		return null;
+		return minVariable;
 	}
 	
 	/**
@@ -253,12 +251,12 @@ public class BTSolver implements Runnable{
 	 */
 	private Variable getDegree()
 	{
-		int maxDegree = 0;
+		int maxDegree = Integer.MIN_VALUE;
 		Variable maxVariable = null;
 		for(Variable v : network.getVariables()) {
 			int degree = 0;
 			for(Variable vOther : network.getNeighborsOfVariable(v)) {
-				if(!vOther.isAssigned()) { degree++; }
+				if(!vOther.isAssigned() && vOther.size() > 1) { degree++; }
 			}
 			System.out.println(v.getName() + ": " + degree);
 			if(degree > maxDegree) {
@@ -266,12 +264,9 @@ public class BTSolver implements Runnable{
 				maxVariable = v;
 			}
 		}
-		System.out.println("MaxDegree: " + maxDegree);
-		if (maxVariable != null)  {
-			return maxVariable;
-		}
 		
-		return null;
+		System.out.println("MaxDegree: " + maxDegree);
+		return maxVariable;
 	}
 	
 	/**
