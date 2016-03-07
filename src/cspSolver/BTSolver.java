@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
+import java.util.Random;
 import sudoku.Converter;
 import sudoku.SudokuFile;
 /**
@@ -252,6 +252,7 @@ public class BTSolver implements Runnable{
 	 */
 	private Variable getDegree()
 	{
+		System.out.println("Unassigned variables remaining: " + getUnassigned());
 		List<Variable> max = new ArrayList<Variable>();
 		int maxDegree = 0;
 		Variable maxVariable = null;
@@ -271,12 +272,13 @@ public class BTSolver implements Runnable{
 				}
 			}
 		}
-		
+		Random random = new Random();
+		int index = random.nextInt(max.size());
 		System.out.println("max: " + max);
 		System.out.println("MaxDegree: " + maxDegree);
-		System.out.println("Variable to assign: " + max.get(max.size()-1).getName());
-		System.out.println("Unassigned variables remaining: " + getUnassigned());
-		return max.get(max.size()-1);
+		System.out.println("Variable to assign: " + max.get(index).getName());
+		System.out.println("=========================");
+		return max.get(index);
 	}
 	
 	private int getUnassigned() {
