@@ -257,12 +257,8 @@ public class BTSolver implements Runnable{
 		Variable maxVariable = null;
 		for(Variable v : network.getVariables()) {
 			int degree = 0;
-			for(Constraint c : network.getConstraintsContainingVariable(v)) {
-				for (Variable v2 : c.vars) {
-					if (v2 != v) {
-						if (!v2.isAssigned()) degree++;
-					}
-				}
+			for(Variable vOther : network.getNeighborsOfVariable(v)) {
+				if(!vOther.isAssigned()) { degree++; }
 			}
 			System.out.println(v.getName() + ": " + degree);
 			if(degree > maxDegree) {
@@ -271,7 +267,9 @@ public class BTSolver implements Runnable{
 			}
 		}
 		System.out.println("MaxDegree: " + maxDegree);
-		if (maxVariable != null) return maxVariable;
+		if (maxVariable != null)  {
+			return maxVariable;
+		}
 		
 		return null;
 	}
