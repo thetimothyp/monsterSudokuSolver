@@ -255,7 +255,6 @@ public class BTSolver implements Runnable{
 		System.out.println("Unassigned variables remaining: " + getUnassigned());
 		List<Variable> max = new ArrayList<Variable>();
 		int maxDegree = 0;
-		Variable maxVariable = null;
 		for(Variable v : network.getVariables()) {
 			if(!v.isAssigned()) {
 				int degree = 0;
@@ -278,7 +277,7 @@ public class BTSolver implements Runnable{
 		System.out.println("MaxDegree: " + maxDegree);
 		System.out.println("Variable to assign: " + max.get(index).getName());
 		System.out.println("=========================");
-		return max.get(index);
+		return (!max.isEmpty() ? max.get(index) : null);
 	}
 	
 	private int getUnassigned() {
