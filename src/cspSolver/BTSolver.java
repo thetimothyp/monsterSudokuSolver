@@ -254,14 +254,16 @@ public class BTSolver implements Runnable{
 		int maxDegree = Integer.MIN_VALUE;
 		Variable maxVariable = null;
 		for(Variable v : network.getVariables()) {
-			int degree = 0;
-			for(Variable vOther : network.getNeighborsOfVariable(v)) {
-				if(!vOther.isAssigned() && vOther.size() > 1) { degree++; }
-			}
-			System.out.println(v.getName() + ": " + degree);
-			if(degree > maxDegree) {
-				maxDegree = degree; 
-				maxVariable = v;
+			if(!v.isAssigned()) {
+				int degree = 0;
+				for(Variable vOther : network.getNeighborsOfVariable(v)) {
+					if(!vOther.isAssigned() && vOther.size() > 1) { degree++; }
+				}
+				System.out.println(v.getName() + ": " + degree);
+				if(degree > maxDegree) {
+					maxDegree = degree; 
+					maxVariable = v;
+				}
 			}
 		}
 		
